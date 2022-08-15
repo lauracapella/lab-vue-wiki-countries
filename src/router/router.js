@@ -11,14 +11,17 @@ const routes = [
     name: 'list',
     component: () => import(/* webpackChunkName: 'list' */ '../views/CountriesList.vue'),
     children: [
-      {
-        path: '/:details',
+      
+       {
+        path: '/list/:details',
         name: 'details',
         component: () => import(/* webpackChunkName: 'details' */ '../views/CountryDetails.vue')
-      },
+      }, 
     ]
   }
 ];
+
+
 
 const router = createRouter({
   history: createWebHistory('/'),
@@ -28,4 +31,4 @@ const router = createRouter({
   }
 });
 
-export default router
+export default router;
