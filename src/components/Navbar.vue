@@ -1,13 +1,13 @@
 <template>
-  <h2>Wiki Countries</h2>
+  <nav class="navbar navbar-dark bg-primary">
+    <div class="container">
+      <router-link class="navbar-brand" to="/">Wiki countries</router-link>
+    </div>
+  </nav>
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
 
-<style>
-
-</style>
+<style></style>

@@ -1,63 +1,99 @@
 <template>
-  <h1>hola</h1>
-  <div v-for="(country, index) in countries" :key="index">
-   <!--  <h1> codigo {{country.alpha3Code}}</h1>
-    <h1> codigo params {{$route.params.details}}</h1> -->
+  <!-- Usando el objeto countryInfo para almacenar data de la api -->
+  <div>
+    <!-- <img
+      v-bind:src="`https://flagcdn.com/w320/${alpha2Code.toLowerCase()}.png`"
+      alt=""
+      class="mb-5"
+    /> -->
+    <h1>{{ name }}</h1>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item d-flex justify-content-between align-items-center"
+      >
+      <p class="fw-bold">Capital</p>
+        <p class="me-5">{{ capital }}</p>
+      </li>
 
+      <li
+        class="list-group-item d-flex justify-content-between align-items-center"
+      >
+      <p class="fw-bold">Area</p>
+      <p class="me-5">{{ area }} km2</p>
+      </li>
+      <li class="list-group-item">
+        <p class="fw-bold">Borders:</p>
+        <!-- <p v-if="countryInfo.borders.length === 0">
+          This country has no borders <br />
+          <br />
+        </p> -->
+        <!-- <p v-else v-for="(border, index) in countryInfo.borders" :key="index">
+          <router-link :to="`/list/${border}`">{{ border }}</router-link>
+        </p> -->
+      </li>
 
-    <div v-if="country.alpha3Code === `${$route.params.details}`">
-     {{country.name.common}}
-     {{country.capital}}
-     {{country.area}}
-     {{country.borders}}
-    </div>
-
-      <!-- Usando una ruta estatica! -->
-      <!-- <router-link :to="country.alpha3Code">
-      {{ country.name.common }}
-    </router-link> -->
-
-      <!-- Usando una ruta dinamica -->
-      
-       <!--  {{ country.alpha3Code }} -->
-        
-      
-    
-    </div>
-  <!-- <h1>{{country.alpha3Code}}</h1> -->
+    </ul>
+  </div>
 </template>
 
 <script>
-import countriesData from "../../public/countries.json";
 export default {
-   name: 'CountryDetails',
+  name: "CountryDetails",
 
-    /* props:{
-    countries: Array,
-     }  
- */
-  data(){
+  data() {
     return {
-      details: "",
-      countries: countriesData,
-    }
+      /* details: "",
+      countries: countriesData, */
+      name:String,
+      capital:String,
+      alpha3Code:String,
+      area:String,
+/*       borders:[],
+ */      alpha2Code:"",
+
+      //Objeto que recibe data del API
+/*       countryInfo: {},
+ */    };
   },
 
-  mounted(){
-    console.log("routes:", this.$route.params.details)
-    console.log("code:", countries.alpha3Code)
-    this.details =  this.$route.params.details 
-    const codigoPais = this.details
-    return codigoPais;
-    /* const route = useRoute();
-    console.warn("route", route.params); */
+  methods: {
+    async getCountryByAlphaCode() {
+      //apuntamos con el this.$route.params para recuperar el valor alpha3code de ese pais para buscar la info detallada de ese pais
+      this.alpha3Code = this.$route.params.alpha3Code;
+      const res = await fetch(
+        `https://ih-countries-api.herokuapp.com/countries/${this.alpha3Code}`
+      );
+      const response = await res.json();
+
+      this.name = response.name.common;
+      this.capital = response.capital[0];
+      this.area = response.area;
+      this.borders = response.borders;
+      this.alpha2Code = response.alpha2Code;
+      this.countryInfo = response;
+    },
   },
 
- 
-}
+  mounted() {
+    this.getCountryByAlphaCode();
+  },
+
+  computed: {
+    countryCode() {
+      return this.$route.params.alpha3Code;
+    },
+  },
+  // Vigila o monitorea el estado de una funcion para detectar si ha canviado la data (reactividad)
+  // En este caso si el valor de countryCode canvia dispara la funcion getCountryByAlphaCode de nuevo
+  // Syntax: Dentro del watch object especificamos una funcion que va a monitorear a otra función. Esta otra funcion monitoreadora recibe 2 parametros (valor nuevo, valor antiguo)
+  //   watch: {
+  //   nameOfaFunctionThatYouWillName(newParam, oldParam){}
+  // },
+  watch: {
+    countryCode(newCountryCode) {
+      this.getCountryByAlphaCode();
+    },
+  },
+};
 </script>
 
-
-<style>
-
-</style>
+<style></style>
