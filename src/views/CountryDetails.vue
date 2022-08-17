@@ -1,11 +1,11 @@
 <template>
   <!-- Usando el objeto countryInfo para almacenar data de la api -->
   <div>
-    <!-- <img
+     <img
       v-bind:src="`https://flagcdn.com/w320/${alpha2Code.toLowerCase()}.png`"
       alt=""
       class="mb-5"
-    /> -->
+    />
     <h1>{{ name }}</h1>
     <ul class="list-group list-group-flush">
       <li class="list-group-item d-flex justify-content-between align-items-center"
@@ -22,13 +22,13 @@
       </li>
       <li class="list-group-item">
         <p class="fw-bold">Borders:</p>
-        <!-- <p v-if="countryInfo.borders.length === 0">
+        <p v-if="borders.length === 0">
           This country has no borders <br />
           <br />
-        </p> -->
-        <!-- <p v-else v-for="(border, index) in countryInfo.borders" :key="index">
+        </p> 
+         <p v-else v-for="(border, index) in borders" :key="index">
           <router-link :to="`/list/${border}`">{{ border }}</router-link>
-        </p> -->
+        </p>
       </li>
 
     </ul>
@@ -47,8 +47,8 @@ export default {
       capital:String,
       alpha3Code:String,
       area:String,
-/*       borders:[],
- */      alpha2Code:"",
+      borders:[],
+      alpha2Code:"",
 
       //Objeto que recibe data del API
 /*       countryInfo: {},
