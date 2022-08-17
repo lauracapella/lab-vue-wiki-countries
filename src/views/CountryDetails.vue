@@ -2,31 +2,31 @@
   <!-- Usando el objeto countryInfo para almacenar data de la api -->
   <div>
      <img
-      v-bind:src="`https://flagcdn.com/w320/${alpha2Code.toLowerCase()}.png`"
+      v-bind:src="`https://flagcdn.com/w320/${countryInfo.alpha2Code.toLowerCase()}.png`"
       alt=""
       class="mb-5"
     />
-    <h1>{{ name }}</h1>
+    <h1>{{ countryInfo.name.common }}</h1>
     <ul class="list-group list-group-flush">
       <li class="list-group-item d-flex justify-content-between align-items-center"
       >
       <p class="fw-bold">Capital</p>
-        <p class="me-5">{{ capital }}</p>
+        <p class="me-5">{{ countryInfo.capital[0] }}</p>
       </li>
 
       <li
         class="list-group-item d-flex justify-content-between align-items-center"
       >
       <p class="fw-bold">Area</p>
-      <p class="me-5">{{ area }} km2</p>
+      <p class="me-5">{{ countryInfo.area }} km2</p>
       </li>
       <li class="list-group-item">
         <p class="fw-bold">Borders:</p>
-        <p v-if="borders.length === 0">
+        <p v-if="countryInfo.borders.length === 0">
           This country has no borders <br />
           <br />
         </p> 
-         <p v-else v-for="(border, index) in borders" :key="index">
+         <p v-else v-for="(border, index) in countryInfo.borders" :key="index">
           <router-link :to="`/list/${border}`">{{ border }}</router-link>
         </p>
       </li>
@@ -51,8 +51,8 @@ export default {
       alpha2Code:"",
 
       //Objeto que recibe data del API
-/*       countryInfo: {},
- */    };
+      countryInfo: {},
+     };
   },
 
   methods: {
